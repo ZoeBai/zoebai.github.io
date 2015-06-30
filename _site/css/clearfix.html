@@ -27,7 +27,37 @@
     <div id="content-wrapper">
       <div class="inner clearfix">
         <section id="main-content">
-        <h1>Hello my friend</h1>
+        <h1 id="bfc">盒模型与BFC与清除浮动总结</h1>
+
+<h2 id="bfc-1">什么是BFC?</h2>
+
+<p>BFC是Block format context,它有如下几个特质</p>
+
+<p>清除浮动的语句为</p>
+
+<p><code>clear: both/left/right/none;</code></p>
+
+<p>然而由于浮动元素不在普通文本流中，包含浮动元素的父级元素将会出现高度塌陷。对浮动元素后的元素采用clear仅能确保该元素的不受float布局影响，不能改善包含浮动元素的高度塌陷问题。</p>
+
+<p><code>
+    <style>
+        .parent {height: auto;}  
+        .left {float:left;}  
+        .right {float:right;}  
+        .next {clear:both;}  
+    </style>
+    &lt;div class = "parent" &gt;  
+        &lt;div class = "left"&gt;&lt;/div&gt;  
+        &lt;div class = "right"&gt;&lt;/div&gt;  
+    &lt;/div&gt;  
+    &lt;div class = "next"&gt;&lt;/div&gt;  
+</code></p>
+
+<div class="parent" style="padding: 20px;height: auto;width:100%;background-color: #eee;">
+    <div class="left" style="float: left;width: 200px;height:200px;background-color: #b00001;"></div>
+    <div class="right" style="float:right;width: 300px;height:200px;background-color: #699000;"></div>
+</div>
+<div class="next" style="clear: both;height:100px;width:100%;background-color: #26264d"></div>
 
         </section>
 
