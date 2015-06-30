@@ -429,7 +429,7 @@ th {
 /* LAYOUT STYLES */
 body {
   font-family: 'Helvetica Neue', Helvetica, Arial, serif;
-  font-size: 15px;
+  font-size: 16px;
   font-weight: 400;
   line-height: 1.5;
   color: #666;
@@ -553,7 +553,7 @@ code, pre {
 }
 
 code {
-  padding: 0 3px;
+  padding: 3px 3px;
   background-color: #f2f8fc;
   border: solid 1px #dbe7f3;
 }
@@ -615,7 +615,7 @@ form {
   margin-top: 0;
   margin-bottom: 0;
   font-family: 'Architects Daughter', 'Helvetica Neue', Helvetica, Arial, serif;
-  font-size: 2.8em;
+  font-size: 2.4em;
   font-weight: normal;
   color: #474747;
   text-indent: 6px;
