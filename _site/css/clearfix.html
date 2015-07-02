@@ -31,7 +31,52 @@
 
 <h2 id="bfc-1">什么是BFC?</h2>
 
-<p>BFC是Block format context,它有如下几个特质</p>
+<p>BFC是Block format context,当以下条件至少触发一条时，便会形成:</p>
+
+<ul>
+  <li>float属性不为 none</li>
+  <li>overflow属性不为 visible</li>
+  <li>display属性为 table-cell, table-caption, 或inline-block</li>
+  <li>display属性为 flex 或 inline-flex</li>
+  <li>position属性不为 static 或 relative</li>
+</ul>
+
+<p>BFC从属于文本流(normal flow)，它有如下特质：</p>
+
+<blockquote>
+  <ol>
+    <li>Block formatting contexts prevent margin collaping</li>
+  </ol>
+</blockquote>
+
+<p>垂直相邻的元素margin原本应塌陷，但若相邻的元素被不同BFC包含，它们的margin将不合并。</p>
+
+<p>在这种情况下，将负元素触发为BFC等同于对父元素设置padding或border.</p>
+
+<blockquote>
+  <ol>
+    <li>Block formatting contexts contain floats</li>
+  </ol>
+</blockquote>
+
+<p>当子元素为浮动时，父元素本应塌陷，但若父元素为BFC，则将包含浮动子元素不会出现高度塌陷。(note: 浮动子元素亦为BFC，而块级格式化上下文BFC必包含BFC)</p>
+
+<p>当父元素为BFC且触发条件不为float时，为自清除浮动，其后不需要清除浮动。 (note: clear只清除相同BFC内的浮动)</p>
+
+<blockquote>
+  <ol>
+    <li>Block formatting contexts do not overlap floats</li>
+  </ol>
+</blockquote>
+
+<p>BFC的border-box将不会与同处于父BFC的float元素的margin重叠。</p>
+
+<p>因此，要设置BFC中BFC与兄弟float元素的空隙时，有如下两种方案：</p>
+
+<ul>
+  <li>对float元素设置与空隙宽度相等的外边距</li>
+  <li>对BFC元素设置外边距等于float元素宽度与空隙宽度之和</li>
+</ul>
 
 <p>清除浮动的语句为</p>
 
@@ -39,25 +84,24 @@
 
 <p>然而由于浮动元素不在普通文本流中，包含浮动元素的父级元素将会出现高度塌陷。对浮动元素后的元素采用clear仅能确保该元素的不受float布局影响，不能改善包含浮动元素的高度塌陷问题。</p>
 
-<p><code>
-    <style>
-        .parent {height: auto;}  
-        .left {float:left;}  
-        .right {float:right;}  
-        .next {clear:both;}  
-    </style>
-    &lt;div class = "parent" &gt;  
-        &lt;div class = "left"&gt;&lt;/div&gt;  
-        &lt;div class = "right"&gt;&lt;/div&gt;  
-    &lt;/div&gt;  
-    &lt;div class = "next"&gt;&lt;/div&gt;  
-</code></p>
+<pre><code>&lt;style&gt;
+    .parent {height: auto;}  
+    .left {float:left;}  
+    .right {float:right;}  
+    .next {clear:both;}  
+&lt;/style&gt;
+&lt;div class = "parent" &gt;  
+    &lt;div class = "left"&gt;&lt;/div&gt;  
+    &lt;div class = "right"&gt;&lt;/div&gt;  
+&lt;/div&gt;  
+&lt;div class = "next"&gt;&lt;/div&gt;  
+</code></pre>
 
-<div class="parent" style="padding: 20px;height: auto;width:100%;background-color: #eee;">
-    <div class="left" style="float: left;width: 200px;height:200px;background-color: #b00001;"></div>
-    <div class="right" style="float:right;width: 300px;height:200px;background-color: #699000;"></div>
+<div class="parent" style="padding: 20px;height: auto;width:100%;background-color: #fe4365;">
+    <div class="left" style="float: left;width: 200px;height:200px;background-color: #fc9d9a;"></div>
+    <div class="right" style="float:right;width: 300px;height:200px;background-color: #f9cdad;"></div>
 </div>
-<div class="next" style="clear: both;height:100px;width:100%;background-color: #26264d"></div>
+<div class="next" style="clear: both;height:100px;width:100%;background-color: #83af9b"></div>
 
         </section>
 
