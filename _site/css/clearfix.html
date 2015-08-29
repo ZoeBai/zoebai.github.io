@@ -43,31 +43,21 @@
 
 <p>BFC从属于文本流(normal flow)，它有如下特质：</p>
 
-<blockquote>
-  <ol>
-    <li>Block formatting contexts prevent margin collaping</li>
-  </ol>
-</blockquote>
+<h3 id="block-formatting-contexts-prevent-margin-collaping">1. Block formatting contexts prevent margin collaping</h3>
 
 <p>垂直相邻的元素margin原本应塌陷，但若相邻的元素被不同BFC包含，它们的margin将不合并。</p>
 
-<p>在这种情况下，将负元素触发为BFC等同于对父元素设置padding或border.</p>
+<p>在这种情况下，将父元素触发为BFC等同于对父元素设置padding或border.</p>
 
-<blockquote>
-  <ol>
-    <li>Block formatting contexts contain floats</li>
-  </ol>
-</blockquote>
+<h3 id="block-formatting-contexts-contain-floats">2. Block formatting contexts contain floats</h3>
 
-<p>当子元素为浮动时，父元素本应塌陷，但若父元素为BFC，则将包含浮动子元素不会出现高度塌陷。(note: 浮动子元素亦为BFC，而块级格式化上下文BFC必包含BFC)</p>
+<p>当子元素为浮动时，父元素本应塌陷，但若父元素为BFC，则将包含浮动子元素不会出现高度塌陷。</p>
+<p class="note">NOTE: 浮动子元素亦为BFC，而块级格式化上下文BFC必包含BFC</p>
 
-<p>当父元素为BFC且触发条件不为float时，为自清除浮动，其后不需要清除浮动。 (note: clear只清除相同BFC内的浮动)</p>
+<p>当父元素为BFC且触发条件不为float时，为<strong style="color:#5759EA;">自清除浮动</strong>，其后不需要清除浮动。</p>
+<p class="note">NOTE: clear只清除相同BFC内的浮动</p>
 
-<blockquote>
-  <ol>
-    <li>Block formatting contexts do not overlap floats</li>
-  </ol>
-</blockquote>
+<h3 id="block-formatting-contexts-do-not-overlap-floats">3. Block formatting contexts do not overlap floats</h3>
 
 <p>BFC的border-box将不会与同处于父BFC的float元素的margin重叠。</p>
 
@@ -78,7 +68,11 @@
   <li>对BFC元素设置外边距等于float元素宽度与空隙宽度之和</li>
 </ul>
 
-<p>清除浮动的语句为</p>
+<hr />
+
+<h2 id="clearfix">清除浮动clearfix</h2>
+
+<p>若仅清除浮动，以下语句就可完成</p>
 
 <p><code>clear: both/left/right/none;</code></p>
 
@@ -97,11 +91,12 @@
 &lt;div class = "next"&gt;&lt;/div&gt;  
 </code></pre>
 
-<div class="parent" style="padding: 20px;height: auto;width:100%;background-color: #fe4365;">
-    <div class="left" style="float: left;width: 200px;height:200px;background-color: #fc9d9a;"></div>
-    <div class="right" style="float:right;width: 300px;height:200px;background-color: #f9cdad;"></div>
+<div class="parent" style="padding: 20px;height: auto;width:100%;box-sizing:border-box;border-radius:5px;background-color: #fe4365;">
+    <p style="margin:0;color:#fff">父元素高度塌陷</p>
+    <div class="left" style="float: left;width: 40%;height:100px;background-color: #fc9d9a;border-radius:5px;"></div>
+    <div class="right" style="float:right;width: 50%;height:100px;background-color: #f9cdad;border-radius:5px;"></div>
 </div>
-<div class="next" style="clear: both;height:100px;width:100%;background-color: #83af9b"></div>
+<p class="next" style="clear: both;border-radius:5px;background-color: #83af9b;color:#fff;text-indent:2em;">clear:both</p>
 
         </section>
 

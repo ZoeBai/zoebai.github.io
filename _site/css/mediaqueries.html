@@ -1,0 +1,214 @@
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="../stylesheets/pygment_trac.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="../stylesheets/print.css" media="print">
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <title>Zoebai&#39;s 前端笔记本 - GitHub.io by ZoeBai</title>
+  </head>
+
+  <body>
+    <header>
+      <div class="inner">
+        <h1>Zoebai&#39;s 前端笔记本 - GitHub.io</h1>
+        <h2>技术博客</h2>
+        <a href="https://github.com/ZoeBai" class="button"><small>Follow me on</small> GitHub</a>
+      </div>
+    </header>
+
+    <div id="content-wrapper">
+      <div class="inner clearfix">
+        <section id="main-content">
+        <h1 id="media-query">学习media query</h1>
+
+<h2 id="section">背景</h2>
+
+<p>让页面在不同的使用情景下应用不同的css在 HTML4 CSS2 时就已支持,比如，在屏幕查看和打印采用不同的样式表：</p>
+
+<pre><code>&lt;link rel="stylesheet" type="text/css" media="screen" href="sans-serif.css"&gt;
+&lt;link rel="stylesheet" type="text/css" media="print" href="serif.css"&gt;
+</code></pre>
+
+<p>在css文件内，可按如下区分：</p>
+
+<pre><code>@media screen {
+  * { font-family: sans-serif }
+}
+</code></pre>
+
+<p>在HTML4中可支持的全部媒体类型有
+- <code>&lt;del&gt;aural&lt;/del&gt;</code>, 被speech取代
+- <code>braille</code>, 用于盲文触觉反馈设备
+- <code>handheld</code>, 手持设备（小屏，有限带宽）
+- <code>print</code>, 用于分页材料，或在文档的打印预览模式
+- <code>projection</code>, 用于投影的汇报
+- <code>screen</code>, 主要用于彩色电脑屏幕
+- <code>tty</code>, 用于 fixed-pitch character grid，tty中不支持像素单位px
+- <code>tv</code>，用于电视设备（低分辨率，彩色，屏幕限制滚动，有声）。
+CSS2里支持的类型列表略有不同，除去了<code>aural</code>, 并增加了 <code>embossed:盲文打印</code> 和 <code>speech：语音合成</code>, 另外<code>all</code>表示该样式表适用于所有的媒体。</p>
+
+<p>HTML5引入了Media Queries规范。</p>
+
+<hr />
+
+<h2 id="media-queries">Media Queries</h2>
+
+<p>媒体查询是一个逻辑表达式，当用户代理运行的设备能匹配媒体查询的媒体类型时为真。</p>
+
+<p>媒体查询拥有速记语法，介绍关键字如下：</p>
+
+<p><code>all</code>：可用来表示所有未被明确指出的类型。<code>@media all and (min-width:500px) { … }</code>是完全等同于<code>@media (min-width:500px) { … }</code>的。</p>
+
+<p><code>and</code>：逻辑与</p>
+
+<p><code>,</code>：逻辑或，当用逗号分隔开的媒体查询列表中只要有一项匹配，则采用样式。如<code>@media screen and (color), projection and (color) { … }</code></p>
+
+<p><code>not</code>：逻辑非</p>
+
+<p><code>only</code>：The keyword ‘only’ can also be used to hide style sheets from older user agents. User agents must process media queries starting with ‘only’ as if the ‘only’ keyword was not present.</p>
+
+<p>NOTE：用户代理被期望能重新评估和布局页面来响应用户环境的变化,例如设备从横向模式倾斜至纵向模式，但并非必须的。</p>
+
+<hr />
+
+<h2 id="section-1">语法</h2>
+
+<hr />
+
+<h2 id="section-2">特性</h2>
+
+<p>媒体特性与一般的css属性类似，但略有不同：
+- css属性用于声明文档的呈现，而媒体特性用于描述输出设备的要求。
+- 绝大多数的媒体特性接受可选的 <code>min-</code> 与 <code>max-</code> 前缀。
+- css属性总是需要一个值来形成声明，而媒体特性，可以不需要值。
+- css属性接受复杂的赋值方式，如 <code>calc()</code>表达式， 而媒体属性只简单的值。</p>
+
+<h3 id="width">width</h3>
+
+<p>适用于：视觉与触觉媒体类型<br />
+min/max前缀可用</p>
+
+<h3 id="height">height</h3>
+
+<p>适用于：视觉与触觉媒体类型<br />
+min/max前缀可用</p>
+
+<pre><code>&lt;link rel="stylesheet" media="print and (min-width: 25cm)" href="http://…" /&gt;
+
+@media screen and (min-width: 400px) and (max-width: 700px) { … }
+</code></pre>
+
+<h3 id="device-width">device-width</h3>
+
+<p>适用于：视觉与触觉媒体类型<br />
+min/max前缀可用<br />
+描述输出设备的显示区域宽度；若为连续媒体，表示屏幕宽度，若为分页媒体，表示页表宽度。</p>
+
+<h3 id="device-height">device-height</h3>
+
+<p>适用于：视觉与触觉媒体类型<br />
+min/max前缀可用<br />
+描述输出设备的显示区域高度；若为连续媒体，表示屏幕高度，若为分页媒体，表示页表高度。</p>
+
+<pre><code>@media screen and (device-width: 800px) { … }
+&lt;link rel="stylesheet" media="screen and (device-height: 600px)" /&gt;
+</code></pre>
+
+<h3 id="orientation">orientation</h3>
+
+<p>value: portrait (竖屏模式)| landscape (横屏模式)<br />
+适用于位图媒体形式 <br />
+min/max前缀不适用</p>
+
+<pre><code>@media all and (orientation:portrait) { … }
+@media all and (orientation:landscape) { … }
+</code></pre>
+
+<h3 id="aspect-ratio">aspect-ratio</h3>
+
+<p>适用于位图媒体形式<br />
+min/max前缀可用<br />
+定义为’height’与’width’的比率</p>
+
+<h3 id="device-aspect-ratio">device-aspect-ratio</h3>
+
+<p>适用于位图媒体形式<br />
+min/max前缀可用<br />
+定义为’device-height’与’device-width’的比率</p>
+
+<h3 id="color">color</h3>
+
+<p>适用于视觉媒体形式<br />
+min/max前缀可用<br />
+描述输出设备每色彩分量所用的比特数，若设备不是’color device’，则为0。</p>
+
+<h3 id="color-index">color-index</h3>
+
+<p>适用于视觉媒体形式<br />
+min/max前缀可用<br />
+描述输出设备颜色查找表的条目数，若设备不采用颜色查找表，则为0。</p>
+
+<h3 id="monochrome">monochrome</h3>
+
+<p>适用于视觉媒体形式
+min/max前缀可用
+描述单色帧缓冲中每像素所用比特数，若设备不是单色设备，则为0。</p>
+
+<pre><code>@media all and (monochrome) { … }
+@media all and (min-monochrome: 1) { … }
+
+&lt;!-- 打印时彩色设备与单色设备分别采用不同样式表 --&gt;
+&lt;link rel="stylesheet" media="print and (color)" href="http://…" /&gt;
+&lt;link rel="stylesheet" media="print and (monochrome)" href="http://…" /&gt;
+</code></pre>
+
+<h3 id="resolution">resolution</h3>
+
+<p>适用于位图媒体形式<br />
+min/max前缀可用<br />
+描述输出设备的精度，如像素的密度。当查询设备为非方形像素时，’max-resolution’将与密度最大的维度相比，’min-resolution’将与密度最小的维度比较，而’resolution’匹配不了非方形像素的设备。</p>
+
+<pre><code>&lt;!-- resolution的单位为dpi或dpcm --&gt;
+@media print and (min-resolution: 300dpi) { … }
+@media print and (min-resolution: 118dpcm) { … }
+</code></pre>
+
+<h3 id="scan">scan</h3>
+
+<p>value: progressive | interlace<br />
+适用于’tv’ 媒体类型<br />
+不支持min/max前缀</p>
+
+<h3 id="grid">grid</h3>
+
+<p>适用于视觉与触觉媒体类型<br />
+不支持min/max前缀<br />
+用来查询输出设备基于位图还是基于网格；若基于网格，则为1，若基于位图，则为0。</p>
+
+<hr />
+
+<h1 id="section-3">参考</h1>
+
+<p><a href="http://www.w3.org/TR/css3-mediaqueries/">media query文档</a></p>
+
+        </section>
+
+        <aside id="sidebar">
+
+
+          <p>This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the Architect theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.</p>
+        </aside>
+      </div>
+    </div>
+
+  
+  </body>
+</html>
