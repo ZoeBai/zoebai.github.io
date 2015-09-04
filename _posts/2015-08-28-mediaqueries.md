@@ -30,7 +30,27 @@ category: CSS
 - `tv`，用于电视设备（低分辨率，彩色，屏幕限制滚动，有声）。
 CSS2里支持的类型列表略有不同，除去了`aural`, 并增加了 `embossed:盲文打印` 和 `speech：语音合成`, 另外`all`表示该样式表适用于所有的媒体。
 
-HTML5引入了Media Queries规范。
+<table border="1" summary="Relationship between media groups and media types">
+<caption style="font-size:1.25em;color:#a52222;">Relationship between media groups and media types</caption>
+<tbody><tr><th>Media Types </th><th colspan="4">Media Groups
+</th></tr><tr><th>&nbsp;
+    </th><th>continuous/paged
+    </th><th>visual/audio/speech/tactile
+    </th><th>grid/bitmap
+    </th><th>interactive/static
+
+</th></tr><tr><th>braille</th><td align="center">continuous</td><td align="center">tactile</td><td align="center">grid</td><td align="center">both</td></tr>
+<tr><th>embossed</th><td align="center">paged</td><td align="center">tactile</td><td align="center">grid</td><td align="center">static</td></tr>
+<tr><th>handheld</th><td align="center">both</td><td align="center">visual, audio, speech</td><td align="center">both</td><td align="center">both</td></tr>
+<tr><th>print</th><td align="center">paged</td><td align="center">visual</td><td align="center">bitmap</td><td align="center">static</td></tr>
+<tr><th>projection</th><td align="center">paged</td><td align="center">visual</td><td align="center">bitmap</td><td align="center">interactive</td></tr>
+<tr><th>screen</th><td align="center">continuous</td><td align="center">visual, audio</td><td align="center">bitmap</td><td align="center">both</td></tr>
+<tr><th>speech</th><td align="center">continuous</td><td align="center">speech</td><td align="center">N/A</td><td align="center">both</td></tr>
+<tr><th>tty</th><td align="center">continuous</td><td align="center">visual</td><td align="center">grid</td><td align="center">both</td></tr>
+<tr><th>tv</th><td align="center">both</td><td align="center">visual, audio</td><td align="center">bitmap</td><td align="center">both</td></tr>
+</tbody></table>
+
+HTML5引入了基于以上内容的Media Queries规范。
 
 ***
 

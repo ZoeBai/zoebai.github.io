@@ -70,13 +70,13 @@
 
 <hr />
 
-<h2 id="clearfix">清除浮动clearfix</h2>
+<h2 id="clear">清除浮动–clear</h2>
 
 <p>若仅清除浮动，以下语句就可完成</p>
 
 <p><code>clear: both/left/right/none;</code></p>
 
-<p>然而由于浮动元素不在普通文本流中，包含浮动元素的父级元素将会出现高度塌陷。对浮动元素后的元素采用clear仅能确保该元素的不受float布局影响，不能改善包含浮动元素的高度塌陷问题。</p>
+<p>然而由于浮动元素不在普通流中，包含浮动元素的父级元素将会出现高度塌陷。对浮动元素后的元素采用clear仅能确保该元素不受float布局影响，不能改善包含浮动元素的高度塌陷问题。</p>
 
 <pre><code>&lt;style&gt;
     .parent {height: auto;}  
@@ -97,6 +97,206 @@
     <div class="right" style="float:right;width: 50%;height:100px;background-color: #f9cdad;border-radius:5px;"></div>
 </div>
 <p class="next" style="clear: both;border-radius:5px;background-color: #83af9b;color:#fff;text-indent:2em;">clear:both</p>
+
+<p>这时，为了解决父元素塌陷，需要<strong>闭合浮动</strong>。</p>
+
+<hr />
+
+<h2 id="clearfix">clearfix</h2>
+
+<p><strong>闭合浮动</strong>一般有如下两种思路：</p>
+
+<h3 id="section">在父元素结尾添加额外标签</h3>
+
+<p>原理：在父元素里浮动元素后添加一个清除浮动的空标签，该子元素处于普通流，被父元素包含，故父元素不塌陷。</p>
+
+<pre><code>&lt;style&gt;
+    .parent {height: auto;}  
+    .left {float:left;}  
+    .right {float:right;}   
+&lt;/style&gt;
+&lt;div class = "parent" &gt;  
+    &lt;div class = "left"&gt;&lt;/div&gt;  
+    &lt;div class = "right"&gt;&lt;/div&gt; 
+    &lt;div style="clear:both"&gt;&lt;/div&gt; 
+&lt;/div&gt;  
+&lt;div class = "next"&gt;&lt;/div&gt;
+</code></pre>
+
+<div class="parent" style="padding: 20px;height: auto;width:100%;box-sizing:border-box;border-radius:5px;background-color: #fe4365;">
+    <p style="margin:0;color:#fff">添加空标签，父元素包裹浮动元素</p>
+    <div class="left" style="float: left;width: 40%;height:100px;background-color: #fc9d9a;border-radius:5px;"></div>
+    <div class="right" style="float:right;width: 50%;height:100px;background-color: #f9cdad;border-radius:5px;"></div>
+    <div style="clear:both"></div>
+</div>
+<p class="next" style="border-radius:5px;background-color: #83af9b;color:#fff;text-indent:2em;">不受浮动影响</p>
+
+<p>使用br标签也是相同的原理</p>
+
+<pre><code>&lt;style&gt;
+    .parent {height: auto;}  
+    .left {float:left;}  
+    .right {float:right;}   
+&lt;/style&gt;
+&lt;div class = "parent" &gt;  
+    &lt;div class = "left"&gt;&lt;/div&gt;  
+    &lt;div class = "right"&gt;&lt;/div&gt; 
+    &lt;br clear="all"&gt; 
+&lt;/div&gt;  
+&lt;div class = "next"&gt;&lt;/div&gt;
+</code></pre>
+
+<div class="parent" style="padding: 20px;height: auto;width:100%;box-sizing:border-box;border-radius:5px;background-color: #fe4365;">
+    <p style="margin:0;color:#fff">类似原理, 添加br标签, 属性为clear="all | left | right | none"</p>
+    <div class="left" style="float: left;width: 40%;height:100px;background-color: #fc9d9a;border-radius:5px;"></div>
+    <div class="right" style="float:right;width: 50%;height:100px;background-color: #f9cdad;border-radius:5px;"></div>
+    <br clear="both" />
+</div>
+<p class="next" style="border-radius:5px;background-color: #83af9b;color:#fff;text-indent:2em;">不受浮动影响</p>
+
+<p>然而，无谓增加了空标签，破坏了结构与表现的一一对应，因此，出现了利用伪元素的改进版本。</p>
+
+<pre><code>&lt;style&gt;
+    .clearfix:after {
+        content: "."; /*设置内容不为空*/
+        display: block;/*使生成的元素以块级元素显示,占满剩余空间*/
+        height: 0;/*避免生成内容破坏原有布局的高度*/
+        visibility: hidden; /*隐藏伪元素*/
+        clear: both; /*清除浮动*/
+    }
+&lt;/style&gt;
+&lt;div class = "parent clearfix" &gt;  
+    &lt;div class = "left"&gt;&lt;/div&gt;  
+    &lt;div class = "right"&gt;&lt;/div&gt; 
+&lt;/div&gt;  
+&lt;div class = "next"&gt;&lt;/div&gt;
+</code></pre>
+
+<div class="parent clearfix" style="padding: 20px;height: auto;width:100%;box-sizing:border-box;border-radius:5px;background-color: #fe4365;">
+    <p style="margin:0;color:#fff">添加伪标签</p>
+    <div class="left" style="float: left;width: 40%;height:100px;background-color: #fc9d9a;border-radius:5px;"></div>
+    <div class="right" style="float:right;width: 50%;height:100px;background-color: #f9cdad;border-radius:5px;"></div>
+</div>
+<p class="next" style="border-radius:5px;background-color: #83af9b;color:#fff;text-indent:2em;">不受浮动影响</p>
+
+<h3 id="bfc-2">将父元素触发为BFC</h3>
+
+<p>按上节中BFC触发条件，都能让父元素包裹子元素。常用方法有：</p>
+
+<ul>
+  <li>设置overflow:auto;</li>
+  <li>设置overflow:hidden;</li>
+  <li>设置float: left | right;</li>
+  <li>设置display: table;</li>
+</ul>
+
+<p>然而，将父元素设置为BFC，将因为BFC的特性引起一系列的布局问题，得不偿失。因此最常用的方法仍是采用after伪元素闭合浮动。</p>
+
+<pre><code>&lt;style&gt;
+    .parent {overflow: auto;}  
+    .left {float:left;}  
+    .right {float:right;}   
+&lt;/style&gt;
+&lt;div class = "parent" &gt;  
+    &lt;div class = "left"&gt;&lt;/div&gt;  
+    &lt;div class = "right"&gt;&lt;/div&gt;
+&lt;/div&gt;  
+&lt;div class = "next"&gt;&lt;/div&gt;
+</code></pre>
+
+<div class="parent" style="padding: 20px;height: auto;width:100%;box-sizing:border-box;overflow:auto;border-radius:5px;background-color: #fe4365;">
+    <p style="margin:0;color:#fff">overflow:auto</p>
+    <div class="left" style="float: left;width: 40%;height:100px;background-color: #fc9d9a;border-radius:5px;"></div>
+    <div class="right" style="float:right;width: 50%;height:100px;background-color: #f9cdad;border-radius:5px;"></div>
+</div>
+<p class="next" style="border-radius:5px;background-color: #83af9b;color:#fff;text-indent:2em;">布局变化</p>
+
+<h2 id="iehaslayout">兼容性 IE与hasLayout</h2>
+
+<p>不管是用伪元素after闭合浮动，还是BFC清除浮动，都存在兼容性问题。</p>
+
+<ol>
+  <li>IE &lt; 8不支持伪元素after</li>
+  <li>IE &lt; 8不支持BFC，而拥有自有概念hasLayout</li>
+</ol>
+
+<h3 id="haslayout--bfc">hasLayout 与 BFC</h3>
+
+<p>hasLayout有与BFC类似的触发条件</p>
+
+<ul>
+    <li>display: inline-block</li>
+    <li style="color:#f00;">height: any value</li>
+    <li style="color:#f00;">width   any value</li>
+    <li>float: left | right</li>
+    <li>position:  absolute</li>
+    <li style="color:#f00;">zoom: any value</li>
+    <li>writingMode tb-rl</li>
+</ul>
+
+<p>IE7中以下条件也能触发hasLayout属性为true</p>
+
+<ul>
+    <li>min/max-height: any value</li>
+    <li>min/max-width: any value</li>
+    <li>float: left | right</li>
+    <li>overflow(-x | -y): ~visible</li>
+</ul>
+
+<p>另外，自带hasLayout为true的元素有 body, img, HTMLInputElement, table 和 td。</p>
+
+<h3 id="ieclearfix">低版本IE的clearfix</h3>
+
+<p>低版本IE的clearfix只能通过触发 hasLayout 闭合浮动完成， 对布局影响较小也运用最多的方法是<code>zoom: 1;</code>。 结合上文中利用after伪元素闭合浮动的方法，一段可兼容IE&lt;8的clearfix如下：</p>
+
+<pre><code>.clearfix:after {
+    content: " ";
+    display: block;
+    height: 0;    
+    visibility: hidden;
+    clear: both;
+}
+.clearfix {
+    zoom: 1;
+}
+</code></pre>
+
+<hr />
+
+<h2 id="clearfix-1">最简洁通用的clearfix</h2>
+
+<p>先上代码</p>
+
+<pre><code>.clearfix：before,
+.clearfix：after {
+    content: " "; /* 1 */
+    display: table; /* 2 */
+}
+
+.clearfix：after {
+    clear: both;
+}
+
+/**
+ * For IE 6/7 only
+ * Include this rule to trigger hasLayout and contain floats.
+ */
+.clearfix {
+    *zoom: 1;
+}
+</code></pre>
+
+<hr />
+
+<h1 id="section-1">参考资料：</h1>
+
+<p><a href="http://yuiblog.com/blog/2010/05/19/css-101-block-formatting-contexts/">BFC</a></p>
+
+<p><a href="https://msdn.microsoft.com/zh-cn/express/ms530764(v=vs.71)">hasLayout</a></p>
+
+<p><a href="http://stackoverflow.com/questions/211383/which-method-of-clearfix-is-best">best clearfix</a></p>
+
+<p><a href="http://www.iyunlu.com/view/css-xhtml/55.html">清除浮动分析</a></p>
 
         </section>
 

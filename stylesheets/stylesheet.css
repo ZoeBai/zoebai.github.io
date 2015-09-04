@@ -419,6 +419,7 @@ optgroup {
 table {
   border-spacing: 0;
   border-collapse: collapse;
+  line-height: 1.5em;
 }
 
 td,
@@ -594,6 +595,7 @@ table {
 
 th {
   font-weight: 500;
+  color: #033247;
 }
 
 td {

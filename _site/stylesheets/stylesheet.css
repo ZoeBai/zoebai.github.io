@@ -419,6 +419,7 @@ optgroup {
 table {
   border-spacing: 0;
   border-collapse: collapse;
+  line-height: 1.5em;
 }
 
 td,
@@ -594,6 +595,7 @@ table {
 
 th {
   font-weight: 500;
+  color: #033247;
 }
 
 td {
@@ -879,10 +881,3 @@ footer a:hover {
 /* Mobile Portrait Size to Mobile Landscape Size (devices and browsers) */
 @media only screen and (max-width: 479px) { }
 
-.note {
-  background-color: #FFE4E4;
-  border: 2px solid #E49191;
-  padding: 1px;
-  margin-top: -15px;
-  text-align: center;
-}
