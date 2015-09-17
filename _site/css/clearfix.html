@@ -52,9 +52,11 @@
 <h3 id="block-formatting-contexts-contain-floats">2. Block formatting contexts contain floats</h3>
 
 <p>当子元素为浮动时，父元素本应塌陷，但若父元素为BFC，则将包含浮动子元素不会出现高度塌陷。</p>
+
 <p class="note">NOTE: 浮动子元素亦为BFC，而块级格式化上下文BFC必包含BFC</p>
 
 <p>当父元素为BFC且触发条件不为float时，为<strong style="color:#5759EA;">自清除浮动</strong>，其后不需要清除浮动。</p>
+
 <p class="note">NOTE: clear只清除相同BFC内的浮动</p>
 
 <h3 id="block-formatting-contexts-do-not-overlap-floats">3. Block formatting contexts do not overlap floats</h3>
@@ -211,6 +213,8 @@
 </div>
 <p class="next" style="border-radius:5px;background-color: #83af9b;color:#fff;text-indent:2em;">布局变化</p>
 
+<hr />
+
 <h2 id="iehaslayout">兼容性 IE与hasLayout</h2>
 
 <p>不管是用伪元素after闭合浮动，还是BFC清除浮动，都存在兼容性问题。</p>
@@ -285,6 +289,16 @@
     *zoom: 1;
 }
 </code></pre>
+
+<p>注释：</p>
+
+<p>1.为伪元素填充内容;</p>
+
+<p>2.<code>display: table</code>隐式生成table-cell, :before伪元素触发BFC, 阻止上外边距塌陷;</p>
+
+<p>3.<code>clear:both</code>用于清除浮动;</p>
+
+<p>4.*zoom为在低版本IE触发hasLayout</p>
 
 <hr />
 
